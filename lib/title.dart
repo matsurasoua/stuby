@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:stuby/RegistrationPage.dart';
-import 'package:stuby/login.dart';
-import 'package:stuby/ProRegPage.dart';
+import 'package:stuby_develop/RegistrationPage.dart';
+import 'package:stuby_develop/login.dart';
+import 'package:stuby_develop/ProRegPage.dart';
 void main() {
   runApp(MyApp());
 }
