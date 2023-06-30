@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
-import 'package:stuby/sample_page.dart';
+import 'package:stuby_develop/sample_page.dart';
 
 class ProRegPage extends StatefulWidget {
   const ProRegPage({Key? key}) : super(key: key);
