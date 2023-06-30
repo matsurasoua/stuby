@@ -2,9 +2,9 @@
 import 'package:flutter/material.dart';
 import 'home.dart';
 import 'match.dart';
-// import 'chat.dart';
-// import 'com.dart';
-// import 'profile.dart';
+import 'chat.dart';
+import 'com.dart';
+import 'setting.dart';
 
 void main() {
   runApp(MyApp());
@@ -35,9 +35,9 @@ class _HomeState extends State<Home> {
   List<Widget> display = [
     HomePage(),
     MatchPage(),
-    // ChatPage(),
-    // ComPage(),
-    // ProfilePage()
+    ChatPage(),
+    ComPage(),
+    SettingPage()
   ];
 
   @override
