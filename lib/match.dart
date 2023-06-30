@@ -84,7 +84,7 @@ class _MatchPageState extends State<MatchPage>
       ClipRRect(
         borderRadius: BorderRadius.circular(20),
         child: Image(
-          image: AssetImage('../assets/gogo.png'),
+          image: AssetImage('../assets/yuuri.png'),
           fit: BoxFit.cover,
           width: 140,
           height: 140,
@@ -95,7 +95,7 @@ class _MatchPageState extends State<MatchPage>
           height: 70,
           width: 140,
           decoration: BoxDecoration(
-            color: Colors.white.withOpacity(0.6),
+            color: Colors.white.withOpacity(0.7),
             borderRadius: BorderRadius.only(
               bottomLeft: Radius.circular(20),
               bottomRight: Radius.circular(20),
@@ -128,7 +128,7 @@ class _MatchPageState extends State<MatchPage>
                   child: Text(
                     '10',
                     style: TextStyle(
-                      fontSize: 12,
+                      fontSize: 11,
                     ),
                   ),
                   padding: EdgeInsets.only(
@@ -139,7 +139,7 @@ class _MatchPageState extends State<MatchPage>
           )
       ),
       Container(
-          margin: EdgeInsets.only(top: 110, left: 6),
+          margin: EdgeInsets.only(top: 105, left: 8),
           //width: MediaQuery.of(context).size.width * 0.5,
           child: Row(
             children: <Widget>[
@@ -148,7 +148,7 @@ class _MatchPageState extends State<MatchPage>
                 child: Text(
                   '好き',
                   style: TextStyle(
-                      fontSize: 8),
+                      fontSize: 7),
                 ),
               ),
               Image(
@@ -161,7 +161,7 @@ class _MatchPageState extends State<MatchPage>
                 child: Text(
                   '苦手',
                   style: TextStyle(
-                      fontSize: 8),
+                      fontSize: 7),
                 ),
               ),
             ],
