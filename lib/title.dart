@@ -34,7 +34,7 @@ class HomeScreen extends StatelessWidget {
           Container(
             decoration: const BoxDecoration(
               image: DecorationImage(
-                image: AssetImage('assets/stuby_BG.png'),
+                image: AssetImage('../assets/stuby_BG.png'),
                 fit: BoxFit.cover,
               ),
             ),
@@ -46,7 +46,7 @@ class HomeScreen extends StatelessWidget {
                 SizedBox(
                   width: 250,
                   height: 350,
-                  child: Image.asset('assets/title.png'),
+                  child: Image.asset('../assets/title.png'),
                 ),
                 OutlinedButton(
                   child: const Text('新規登録'),

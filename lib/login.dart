@@ -34,29 +34,28 @@ class _LoginPageState extends State<LoginPage> {
     );
 
     // レスポンスを出力
-    print('レスポンスステータスコード: ${response.statusCode}');
+
     print('レスポンスボディ: ${response.body}');
+    print('レスポンスステータスコード: ${response.statusCode}');
 
     // レスポンスを解析
     final responseData = jsonDecode(response.body);
     int statusCode = response.statusCode;
     int userId = responseData['login_user_id'];
-    String message = responseData['message'];
-
+//2210372@ecc.ac.jp
     if (statusCode == 200) {
       // ログイン成功
       setState(() {
         isLoggedIn = true;
         this.userId = userId;
-        print('aaa');
         Navigator.pushNamed(context, '/signup');
       });
+
     } else {
       // ログイン失敗
       setState(() {
         isLoggedIn = false;
         this.userId = 0;
-        print('bbb');
       });
     }
   }
@@ -108,6 +107,7 @@ class _LoginPageState extends State<LoginPage> {
                     decoration: InputDecoration(
                       labelText: 'Password',
                     ),
+                    obscureText: true,
                   ),
                   SizedBox(height: 20.0),
                   ElevatedButton(
@@ -122,9 +122,6 @@ class _LoginPageState extends State<LoginPage> {
                     onPressed: login,
                   ),
                   SizedBox(height: 20.0),
-                  isLoggedIn
-                      ? Text('ようこそ$userIdさん！')
-                      : Text('ログインしてください'),
                 ],
               ),
             ),

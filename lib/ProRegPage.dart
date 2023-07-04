@@ -3,6 +3,7 @@ import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'package:stuby_develop/sample_page.dart';
 
+
 class ProRegPage extends StatefulWidget {
   const ProRegPage({Key? key}) : super(key: key);
 
@@ -27,7 +28,7 @@ class _ProRegPageState extends State<ProRegPage> {
 
   List<String> _missingFields = []; // 入力していない項目を保持するリスト
 
-  void _register() {
+  void _register() async{
     _missingFields.clear(); // リストを初期化
 
     String name = _nameController.text;
@@ -147,7 +148,7 @@ class _ProRegPageState extends State<ProRegPage> {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(
-          title: Image.asset('assets/logo.png', width: 100, height: 100),
+          title: Image.asset('../assets/logo.png', width: 100, height: 100),
           centerTitle: true,
           backgroundColor: Colors.white,
           leading: IconButton(
@@ -194,7 +195,7 @@ class _ProRegPageState extends State<ProRegPage> {
                     if (value!.isEmpty) {
                       return 'メールアドレスを入力してください';
                     }
-                    if (!value.contains('g@')) {
+                    if (!value.contains('@')) {
                       return '正しいメールアドレスを入力してください';
                     }
                     return null;
