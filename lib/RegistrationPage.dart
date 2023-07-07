@@ -38,6 +38,8 @@ class _RegistrationPageState extends State<RegistrationPage> {
     String? subject1 = _selectedSubject1; // 選択された得意科目を取得
     String? subject2 = _selectedSubject2; // 選択された苦手科目を取得
 
+    int userID = 0;
+
     // 必須項目のバリデーションチェック
     if (name.isEmpty) {
       _missingFields.add('名前');
@@ -117,62 +119,44 @@ class _RegistrationPageState extends State<RegistrationPage> {
 // APIリクエストのボディデータを作成
     Map<String, dynamic> requestData = {
       'user_name': name,
-      'user_email': password,
-      'user_passwd': email,
-      'user_old': age,
+      'user_email': email,
+      'user_passwd': password,
+      'user_old': age is List<int>,
       'user_school_name': school,
       'user_faculty': faculty,
-      'user_schooltyear': SYear,
+      'user_schoolyear': SYear is List<int>,
       'user_gender': gender,
       'fasubject': subject1,
       'wesubject': subject2,
     };
 
 // APIリクエストを送信
-    try {
-      http.Response response = await http.post(
-        Uri.parse(apiEndpoint),
-        body: json.encode(requestData),
-        headers: {'Content-Type': 'application/json'},
-      );
+    http.Response response = await http.post(
+      Uri.parse(apiEndpoint),
+      body: json.encode(requestData),
+      headers: {'Content-Type': 'application/json'},
+    );
 
-      // APIレスポンスのステータスコードを取得
-      int statusCode = response.statusCode;
-      print('レスポンスステータスコード: ${response.statusCode}');
-      print('レスポンスボディ: ${response.body}');
-      if (statusCode == 200) {
-        // APIレスポンスのユーザーIDを取得
-        String userID = json.decode(response.body)['userID'];
+    // APIレスポンスのステータスコードを取得
+    int statusCode = response.statusCode;
+    print('レスポンスステータスコード: $statusCode');
+    print('レスポンスボディ: ${response.body}');
 
-        // レスポンスの処理を行うことができます
-        Navigator.pushNamed(context, '/login');
+    final responseData = jsonDecode(response.body);
+    int userId = responseData['login_user_id'];
+    // print(responseData['login_user_id']);
+    if (statusCode == 201) {
+      // APIレスポンスのユーザーIDを取得
+      // レスポンスの処理を行うことができます
+      Navigator.pushNamed(context, '/login');
 
-      } else {
-        showDialog(
-          context: context,
-          builder: (context) {
-            return AlertDialog(
-              title: Text('エラー'),
-              content: Text('APIリクエストが失敗しました。ステータスコード：$statusCode'),
-              actions: <Widget>[
-                TextButton(
-                  child: Text('OK'),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                ),
-              ],
-            );
-          },
-        );
-      }
-    } catch (error) {
+    } else {
       showDialog(
         context: context,
         builder: (context) {
           return AlertDialog(
             title: Text('エラー'),
-            content: Text('APIリクエスト中にエラーが発生しました：$error'),
+            content: Text('APIリクエストが失敗しました。ステータスコード：$statusCode'),
             actions: <Widget>[
               TextButton(
                 child: Text('OK'),
@@ -185,6 +169,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
         },
       );
     }
+
   }
 
   @override
@@ -203,7 +188,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
           flexibleSpace: Container(
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: AssetImage('assets/stubyHeader.png'),
+                image: AssetImage('../assets/stubyHeader.png'),
                 fit: BoxFit.cover,
               ),
             ),
@@ -252,6 +237,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                     hintText: 'パスワードを入力してください',
                     border: OutlineInputBorder(),
                   ),
+                  obscureText: true,
                 ),
                 SizedBox(height: 10),
                 Text(
@@ -339,8 +325,6 @@ class _RegistrationPageState extends State<RegistrationPage> {
                   },
                   items: <String>[
                     '数学',
-                    '物理',
-                    '化学',
                     '英語',
                     '国語',
                     '社会',
@@ -367,8 +351,6 @@ class _RegistrationPageState extends State<RegistrationPage> {
                   },
                   items: <String>[
                     '数学',
-                    '物理',
-                    '化学',
                     '英語',
                     '国語',
                     '社会',
@@ -401,7 +383,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
         bottomNavigationBar: Container( //フッター
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: AssetImage('assets/stubyFooetr.png'),
+                image: AssetImage('../assets/stubyFooetr.png'),
                 fit: BoxFit.cover,
               ),
             ),
