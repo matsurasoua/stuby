@@ -2,6 +2,10 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
+class GlobalData {
+  static int userId = 0;
+}
+
 class LoginPage extends StatefulWidget {
   @override
   _LoginPageState createState() => _LoginPageState();
@@ -11,51 +15,39 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
-  // APIのエンドポイントURL
   final String apiURL = 'https://hvpjsk6o6g.execute-api.us-east-2.amazonaws.com/stuby/user/login';
 
-  // ログイン状態を保持する変数
   bool isLoggedIn = false;
-  int userId = 0;
 
-  // ログインAPIにリクエストを送信するメソッド
   Future<void> login() async {
-    // リクエストのボディデータを作成
     Map<String, dynamic> requestBody = {
       'user_email': emailController.text,
       'user_passwd': passwordController.text,
     };
 
-    // リクエストを送信
     final response = await http.post(
       Uri.parse(apiURL),
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode(requestBody),
     );
 
-    // レスポンスを出力
-
     print('レスポンスボディ: ${response.body}');
     print('レスポンスステータスコード: ${response.statusCode}');
 
-    // レスポンスを解析
     final responseData = jsonDecode(response.body);
     int statusCode = response.statusCode;
     int userId = responseData['login_user_id'];
-//2210372@ecc.ac.jp
+
     if (statusCode == 200) {
-      // ログイン成功
       setState(() {
         isLoggedIn = true;
-        this.userId = userId;
-        Navigator.pushNamed(context, '/signup');
+        GlobalData.userId = responseData['login_user_id']; // userIdをグローバル変数に代入
+        Navigator.pushNamed(context, '/home');
       });
-
     } else {
-      // ログイン失敗
       setState(() {
         isLoggedIn = false;
-        this.userId = 0;
+        GlobalData.userId = 0;
       });
     }
   }
@@ -68,7 +60,7 @@ class _LoginPageState extends State<LoginPage> {
           Container(
             decoration: const BoxDecoration(
               image: DecorationImage(
-                image: AssetImage('assets/stuby_BG.png'),
+                image: AssetImage('../assets/stuby_BG.png'),
                 fit: BoxFit.cover,
               ),
             ),
@@ -79,8 +71,7 @@ class _LoginPageState extends State<LoginPage> {
             right: 0,
             child: Padding(
               padding: EdgeInsets.all(15.0),
-              child: Image.asset('assets/title.png'),
-
+              child: Image.asset('../assets/title.png'),
             ),
           ),
           Center(

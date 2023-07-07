@@ -141,9 +141,12 @@ class _RegistrationPageState extends State<RegistrationPage> {
     int statusCode = response.statusCode;
     print('レスポンスステータスコード: $statusCode');
     print('レスポンスボディ: ${response.body}');
+
+    final responseData = jsonDecode(response.body);
+    int userId = responseData['login_user_id'];
+    // print(responseData['login_user_id']);
     if (statusCode == 201) {
       // APIレスポンスのユーザーIDを取得
-      userID = json.decode(response.body)['login_user_id'];
       // レスポンスの処理を行うことができます
       Navigator.pushNamed(context, '/login');
 
@@ -185,7 +188,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
           flexibleSpace: Container(
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: AssetImage('assets/stubyHeader.png'),
+                image: AssetImage('../assets/stubyHeader.png'),
                 fit: BoxFit.cover,
               ),
             ),
@@ -380,7 +383,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
         bottomNavigationBar: Container( //フッター
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: AssetImage('assets/stubyFooetr.png'),
+                image: AssetImage('../assets/stubyFooetr.png'),
                 fit: BoxFit.cover,
               ),
             ),
