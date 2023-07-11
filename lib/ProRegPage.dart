@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
-import 'package:stuby_develop/sample_page.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'package:stuby_develop/login.dart';
+
 
 class ProRegPage extends StatefulWidget {
   const ProRegPage({Key? key}) : super(key: key);
@@ -11,74 +14,61 @@ class ProRegPage extends StatefulWidget {
 }
 
 class _ProRegPageState extends State<ProRegPage> {
+
+  int userId = GlobalData.userId; // GlobalDataのuserIdを取得
   TextEditingController _nameController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
   TextEditingController _emailController = TextEditingController();
-  TextEditingController _SchoolController = TextEditingController();
-  TextEditingController _GreadController = TextEditingController();
-  TextEditingController _FacultyController = TextEditingController();
-  TextEditingController _OverViewController = TextEditingController();
+  TextEditingController _schoolController = TextEditingController();
+  TextEditingController _gradeController = TextEditingController();
+  TextEditingController _facultyController = TextEditingController();
+  TextEditingController _overviewController = TextEditingController();
 
-  String? _selectedSubject1; // 選択された得意科目を保持する変数
-  String? _selectedSubject2; // 選択された苦手科目を保持する変数
-  // String? _selectedSubject3;// 選択された学びたい科目科目を保持する変数
+  String? _updateImageName;
+  String? _selectedImageName;
+  String? _selectedSubject1;
+  String? _selectedSubject2;
   File? _selectedImage;
   File? _uploadImage;
 
-  List<String> _missingFields = []; // 入力していない項目を保持するリスト
 
-  void _register() {
-    _missingFields.clear(); // リストを初期化
+  void _register() async {
 
     String name = _nameController.text;
     String password = _passwordController.text;
     String email = _emailController.text;
-    String school = _SchoolController.text;
-    String grade = _GreadController.text;
-    String faculty = _FacultyController.text;
-    String overview = _OverViewController.text;
+    String school = _schoolController.text;
+    String grade = _gradeController.text;
+    String faculty = _facultyController.text;
+    String overview = _overviewController.text;
 
     File? icon = _selectedImage;
     File? profile = _uploadImage;
 
-    String? subject1 = _selectedSubject1; // 選択された得意科目を取得
-    String? subject2 = _selectedSubject2; // 選択された苦手科目を取得
+    String? subject1 = _selectedSubject1;
+    String? subject2 = _selectedSubject2;
 
-    if (name.isEmpty) {
-      _missingFields.add('名前');
-    }
-    if (password.isEmpty) {
-      _missingFields.add('パスワード');
-    }
-    if (email.isEmpty) {
-      _missingFields.add('メールアドレス');
-    }
-    if (school.isEmpty) {
-      _missingFields.add('学名');
-    }
-    if (grade.isEmpty) {
-      _missingFields.add('学年');
-    }
-    if (faculty.isEmpty) {
-      _missingFields.add('学部');
-    }
-    if (overview.isEmpty) {
-      _missingFields.add('自己紹介');
-    }
-    if (_selectedSubject1 == null) {
-      _missingFields.add('得意科目');
-    }
-    if (_selectedSubject2 == null) {
-      _missingFields.add('苦手科目');
-    }
+    String? iconName = _updateImageName;
+    String? profileName = _selectedImageName;
 
-    if (_missingFields.isNotEmpty) {
+
+
+
+    print(iconName);
+    print(profileName);
+    // APIリクエストの送信
+    final url = 'https://hvpjsk6o6g.execute-api.us-east-2.amazonaws.com/stuby/user/update';
+    int userId = GlobalData.userId;
+
+    print(userId);
+    // メールアドレスのバリデーションチェックとエラーダイアログの表示
+    if (!email.contains('@')) {
       showDialog(
         context: context,
         builder: (context) {
           return AlertDialog(
             title: Text('エラー'),
-            content: Text('以下の項目を入力してください：\n${_missingFields.join(", ")}'),
+            content: Text('正しいメールアドレスを入力してください'),
             actions: <Widget>[
               TextButton(
                 child: Text('OK'),
@@ -90,34 +80,67 @@ class _ProRegPageState extends State<ProRegPage> {
           );
         },
       );
-      return; // 必須項目が入力されていない場合は登録処理を中断
+      return;
     }
 
-    // 登録処理
+// APIリクエストのボディデータを作成
+    Map<String, dynamic> requestData = {
+      "user_id" : userId, //ユーザーのid
+      "user_name": name, //ユーザーの名前
+      "user_email" : email, //ユーザーのメールアドレス
+      "user_passwd" : password, //ユーザーのパスワード
+      "user_school_name" : school, //学校名
+      "user_faculty" : faculty, //学校のコース名
+      "user_schoolyear": grade, //学年
+      "fasubject" : subject1, //得意科目(教えれる科目)
+      "wesubject" : subject2, //苦手科目(教えてほしい科目)
+      "icon_img" : iconName, //ユーザーのアイコン画像ファイル名(小さい丸い方)
+      "pro_img" : profileName, //ユーザーのプロフィール画像ファイル名(長方形の方)
+      "user_intro" : overview //ユーザーの自己紹介
+      //"user_status" : Boolean
+    };
 
-    // 登録後、ホーム画面に遷移
-    // Navigator.pushReplacementNamed(context, '/home');
-
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => SamplePage(
-          name: name,
-          password: password,
-          email: email,
-          school: school,
-          grade: grade,
-          faculty: faculty,
-          overview: overview,
-          subject1: subject1,
-          subject2: subject2,
-          // subject3: subject3,
-          icon: icon,
-          profile: profile,
-        ),
-      ),
+// APIリクエストを送信
+    http.Response response = await http.put(
+      Uri.parse(url),
+      body: json.encode(requestData),
+      headers: {'Content-Type': 'application/json'},
     );
+
+    // APIレスポンスのステータスコードを取得
+    int statusCode = response.statusCode;
+    print('レスポンスステータスコード: $statusCode');
+    print('レスポンスボディ: ${response.body}');
+    if (statusCode == 204) {
+      // APIレスポンスのユーザーIDを取得
+      // レスポンスの処理を行うことができます
+      Navigator.pushNamed(context, '/login');
+
+    } else {
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text('エラー'),
+            content: Text('APIリクエストが失敗しました。ステータスコード：$statusCode'),
+            actions: <Widget>[
+              TextButton(
+                child: Text('OK'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
+    }
+
+
+
   }
+
+
 
   Future<void> _pickImage() async {
     final imagePicker = ImagePicker();
@@ -126,6 +149,7 @@ class _ProRegPageState extends State<ProRegPage> {
     if (pickedImage != null) {
       setState(() {
         _selectedImage = File(pickedImage.path);
+        _selectedImageName = pickedImage.name;
       });
     }
   }
@@ -137,21 +161,25 @@ class _ProRegPageState extends State<ProRegPage> {
     if (pickedImage != null) {
       setState(() {
         _uploadImage = File(pickedImage.path);
+        _updateImageName = pickedImage.name;
       });
     }
   }
 
   @override
   Widget build(BuildContext context) {
+
+    print(userId);
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(
+          backgroundColor: Colors.white,
           title: Image.asset('assets/logo.png', width: 100, height: 100),
           centerTitle: true,
-          backgroundColor: Colors.white,
-          leading: IconButton(
-            icon: Icon(Icons.arrow_back),
+          leading: TextButton(
+            child: Text('戻る'),
             onPressed: () {
               Navigator.pop(context);
             },
@@ -160,16 +188,56 @@ class _ProRegPageState extends State<ProRegPage> {
             TextButton(
               child: Text('Save'),
               onPressed: _register,
-            ),
+            )
           ],
         ),
+        backgroundColor: Colors.blue[50],
         body: Container(
-          color: Color(0xFF00C8FF),
           child: SingleChildScrollView(
             padding: EdgeInsets.all(16.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
+                ElevatedButton.icon(
+                  icon: Icon(Icons.camera_alt),
+                  label: Text('プロフィール画像を選択'),
+                  onPressed: _pick2Image,
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.blue,
+                    onPrimary: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20.0),
+                    ),
+                  ),
+                ),
+                if (_uploadImage != null)
+                  Image.file(
+                    _uploadImage!,
+                    fit: BoxFit.cover,
+                    width: 200,
+                    height: 150,
+                  ),
+                SizedBox(height: 16.0),
+                ElevatedButton.icon(
+                  icon: Icon(Icons.photo_library),
+                  label: Text('アイコン画像を選択'),
+                  onPressed: _pickImage,
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.blue,
+                    onPrimary: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20.0),
+                    ),
+                  ),
+                ),
+                if (_selectedImage != null)
+                  Image.file(
+                    _selectedImage!,
+                    fit: BoxFit.cover,
+                    width: 200,
+                    height: 150,
+                  ),
+                SizedBox(height: 16.0),
                 TextField(
                   maxLength: 25,
                   controller: _nameController,
@@ -194,26 +262,26 @@ class _ProRegPageState extends State<ProRegPage> {
                     if (value!.isEmpty) {
                       return 'メールアドレスを入力してください';
                     }
-                    if (!value.contains('g@')) {
+                    if (!value.contains('@')) {
                       return '正しいメールアドレスを入力してください';
                     }
                     return null;
                   },
                 ),
                 TextField(
-                  controller: _SchoolController,
+                  controller: _schoolController,
                   decoration: InputDecoration(
                     labelText: '学名',
                   ),
                 ),
                 TextField(
-                  controller: _FacultyController,
+                  controller: _facultyController,
                   decoration: InputDecoration(
                     labelText: '学部',
                   ),
                 ),
                 TextField(
-                  controller: _GreadController,
+                  controller: _gradeController,
                   decoration: InputDecoration(
                     labelText: '学年',
                   ),
@@ -223,10 +291,15 @@ class _ProRegPageState extends State<ProRegPage> {
                   decoration: InputDecoration(
                     labelText: '得意科目',
                   ),
+                  onChanged: (newValue) {
+                    setState(() {
+                      _selectedSubject1 = newValue;
+                    });
+                  },
                   items: <String>[
+                    '国語',
                     '数学',
                     '英語',
-                    '国語',
                     '理科',
                     '社会',
                   ].map<DropdownMenuItem<String>>((String value) {
@@ -235,21 +308,21 @@ class _ProRegPageState extends State<ProRegPage> {
                       child: Text(value),
                     );
                   }).toList(),
-                  onChanged: (value) {
-                    setState(() {
-                      _selectedSubject1 = value;
-                    });
-                  },
                 ),
                 DropdownButtonFormField<String>(
                   value: _selectedSubject2,
                   decoration: InputDecoration(
                     labelText: '苦手科目',
                   ),
+                  onChanged: (newValue) {
+                    setState(() {
+                      _selectedSubject2 = newValue;
+                    });
+                  },
                   items: <String>[
+                    '国語',
                     '数学',
                     '英語',
-                    '国語',
                     '理科',
                     '社会',
                   ].map<DropdownMenuItem<String>>((String value) {
@@ -258,81 +331,14 @@ class _ProRegPageState extends State<ProRegPage> {
                       child: Text(value),
                     );
                   }).toList(),
-                  onChanged: (value) {
-                    setState(() {
-                      _selectedSubject2 = value;
-                    });
-                  },
                 ),
-                // DropdownButtonFormField<String>(
-                //   value: _selectedSubject3,
-                //   decoration: InputDecoration(
-                //     labelText: '学びたい科目',
-                //   ),
-                //   items: <String>[
-                //     '数学',
-                //     '英語',
-                //     '国語',
-                //     '理科',
-                //     '社会',
-                //   ].map<DropdownMenuItem<String>>((String value) {
-                //     return DropdownMenuItem<String>(
-                //       value: value,
-                //       child: Text(value),
-                //     );
-                //   }).toList(),
-                //   onChanged: (value) {
-                //     setState(() {
-                //       _selectedSubject3 = value;
-                //     });
-                //   },
-                // ),
-                TextField(
-                  controller: _OverViewController,
+                TextFormField(
+                  controller: _overviewController,
+                  maxLength: 160,
                   decoration: InputDecoration(
                     labelText: '自己紹介',
                   ),
-                  maxLines: 3,
-                ),
-                SizedBox(height: 20.0),
-                Text(
-                  'アイコン画像を選択',
-                  style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
-                ),
-                SizedBox(height: 10.0),
-                _selectedImage != null
-                    ? Image.file(
-                  _selectedImage!,
-                  width: 100.0,
-                  height: 100.0,
-                )
-                    : SizedBox(
-                  width: 100.0,
-                  height: 100.0,
-                  child: IconButton(
-                    icon: Icon(Icons.camera_alt),
-                    onPressed: _pickImage,
-                  ),
-                ),
-                SizedBox(height: 20.0),
-                Text(
-                  'プロフィール画像を選択',
-                  style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
-                ),
-                SizedBox(height: 10.0),
-                _uploadImage != null
-                    ? Image.file(
-                  _uploadImage!,
-                  width: 100.0,
-                  height: 100.0,
-                )
-                    : SizedBox(
-                  width: 100.0,
-                  height: 100.0,
-                  child: IconButton(
-                    icon: Icon(Icons.camera_alt),
-                    onPressed: _pick2Image,
-                  ),
+                  maxLines: null,
                 ),
               ],
             ),
@@ -342,3 +348,12 @@ class _ProRegPageState extends State<ProRegPage> {
     );
   }
 }
+
+void main() {
+  runApp(MaterialApp(
+    debugShowCheckedModeBanner: false,
+    home: ProRegPage(),
+  ));
+}
+
+

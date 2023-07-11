@@ -29,7 +29,7 @@ class _SettingPage extends State<SettingPage>
         body: SingleChildScrollView(
             child: Stack(children: [
       Image.asset(
-        '../assets/parupa_head.png',
+        '../assets/yuuri.png',
         fit: BoxFit.cover,
         //width: double.infinity,
         width: MediaQuery.of(context).size.width,
@@ -39,7 +39,7 @@ class _SettingPage extends State<SettingPage>
         margin: EdgeInsets.only(top: 110, left: 30),
         child: CircleAvatar(
           radius: 40,
-          backgroundImage: AssetImage('../assets/parupa_icon.jpg'),
+          backgroundImage: AssetImage('../assets/user1_story.png'),
         ),
       ),
       Row(
