@@ -36,7 +36,7 @@ class PosDisPage extends StatelessWidget {
               Container(
                 margin: EdgeInsets.only(top: 5, left: 85), // 上部に8のマージンを追加
                 child: Image.asset(
-                  '../assets/logo.png',
+                  'assets/logo.png',
                   width: 80,
                   height: 80,
                 ),
@@ -173,7 +173,7 @@ class PosDisPage extends StatelessWidget {
                   ),
                   Container(
                     child:Image.asset(
-                      "../assets/share.png",
+                      "assets/share.png",
                     ),
                     margin: EdgeInsets.only(bottom: 18, right: 35),
                   ),
