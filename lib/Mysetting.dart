@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:stuby_develop/ProRegPage.dart';
+import 'RegistrationPage.dart';
+import 'package:stuby_develop/API/matchAPI.dart';
 
-class SettingPage extends StatefulWidget {
-  const SettingPage({Key? key}) : super(key: key);
+class MySettingPage extends StatefulWidget {
+  const MySettingPage({Key? key}) : super(key: key);
 
   @override
-  _SettingPage createState() => _SettingPage();
+  _MySettingPage createState() => _MySettingPage();
 }
 
-class _SettingPage extends State<SettingPage>
+class _MySettingPage extends State<MySettingPage>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
 
@@ -26,36 +29,10 @@ class _SettingPage extends State<SettingPage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        //backgroundColor: Color.fromRGBO(228, 252, 255, 1),
-        appBar: AppBar(
-          leading: IconButton(
-            icon: Icon(Icons.close),
-            color: Colors.lightBlueAccent,
-            onPressed: () => Navigator.pop(context),
-          ),
-          automaticallyImplyLeading: false,
-          centerTitle: true,
-          backgroundColor: Colors.white,
-          elevation: 0.0,
-          title: Center(
-            child: Row(
-              children: [
-                Container(
-                  margin: EdgeInsets.only(top: 5, left: 85), // 上部に8のマージンを追加
-                  child: Image.asset(
-                    '../assets/logo.png',
-                    width: 80,
-                    height: 80,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
         body: SingleChildScrollView(
             child: Stack(children: [
       Image.asset(
-        '../assets/yuuri.png',
+        'assets/yuuri.png',
         fit: BoxFit.cover,
         //width: double.infinity,
         width: MediaQuery.of(context).size.width,
@@ -65,7 +42,7 @@ class _SettingPage extends State<SettingPage>
         margin: EdgeInsets.only(top: 110, left: 30),
         child: CircleAvatar(
           radius: 40,
-          backgroundImage: AssetImage('../assets/user1_story.png'),
+          backgroundImage: AssetImage('assets/user1_story.png'),
         ),
       ),
       Row(
@@ -98,6 +75,21 @@ class _SettingPage extends State<SettingPage>
                 left: 5,
                 right: 5,
               )),
+          Container(
+            margin: EdgeInsets.only(top: 145, left: 70),
+            //width: MediaQuery.of(context).size.width * 0.5,
+            child: IconButton(
+                //width: MediaQuery.of(context).size.width * 0.5,
+                icon: Icon(Icons.mode_edit),
+                color: Colors.lightBlueAccent,
+                iconSize: 30,
+                onPressed: (){
+                  Navigator.push((context), MaterialPageRoute(builder: (context) {
+                    return ProRegPage();
+                  }));
+                }
+            ),
+          )
         ], //children
       ),
       Container(
@@ -123,7 +115,7 @@ class _SettingPage extends State<SettingPage>
               ),
             ),
             Image(
-              image: AssetImage('../assets/yaj.png'),
+              image: AssetImage('assets/yaj.png'),
               width: MediaQuery.of(context).size.width / 30,
               height: MediaQuery.of(context).size.width / 30,
             ),
