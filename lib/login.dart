@@ -36,20 +36,42 @@ class _LoginPageState extends State<LoginPage> {
 
     final responseData = jsonDecode(response.body);
     int statusCode = response.statusCode;
-    int userId = responseData['login_user_id'];
+    // int userId = responseData['login_user_id'];
+
+
 
     if (statusCode == 200) {
       setState(() {
         isLoggedIn = true;
         GlobalData.userId = responseData['login_user_id']; // userIdをグローバル変数に代入
-        Navigator.pushNamed(context, '/home');
+        Navigator.pushNamed(context, '/ProReg');
       });
     } else {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('ログインエラー'),
+            content: Text('正しいログイン情報を入力してください。'),
+            actions: <Widget>[
+              TextButton(
+                child: Text('OK'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
+
       setState(() {
         isLoggedIn = false;
         GlobalData.userId = 0;
       });
     }
+
+
   }
 
   @override
@@ -60,7 +82,7 @@ class _LoginPageState extends State<LoginPage> {
           Container(
             decoration: const BoxDecoration(
               image: DecorationImage(
-                image: AssetImage('../assets/stuby_BG.png'),
+                image: AssetImage('assets/stuby_BG.png'),
                 fit: BoxFit.cover,
               ),
             ),
@@ -71,7 +93,7 @@ class _LoginPageState extends State<LoginPage> {
             right: 0,
             child: Padding(
               padding: EdgeInsets.all(15.0),
-              child: Image.asset('../assets/title.png'),
+              child: Image.asset('assets/title.png'),
             ),
           ),
           Center(

@@ -176,7 +176,7 @@ class _ProRegPageState extends State<ProRegPage> {
       home: Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.white,
-          title: Image.asset('../assets/logo.png', width: 100, height: 100),
+          title: Image.asset('assets/logo.png', width: 100, height: 100),
           centerTitle: true,
           leading: TextButton(
             child: Text('戻る'),
