@@ -4,7 +4,7 @@ import 'home.dart';
 import 'match.dart';
 import 'chat.dart';
 import 'com.dart';
-import 'setting.dart';
+import 'Mysetting.dart';
 
 void main() {
   runApp(MyApp());
@@ -37,7 +37,7 @@ class _HomeState extends State<Home> {
     MatchPage(),
     ChatPage(),
     ComPage(),
-    SettingPage()
+    MySettingPage()
   ];
 
   @override
@@ -55,7 +55,7 @@ class _HomeState extends State<Home> {
                 Container(
                   margin: EdgeInsets.only(top:5), // 上部に8のマージンを追加
                   child: Image.asset(
-                    '../assets/logo.png',
+                    'assets/logo.png',
                     width: 80,
                     height: 80,
                   ),
