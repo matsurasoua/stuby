@@ -188,7 +188,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
           flexibleSpace: Container(
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: AssetImage('../assets/stubyHeader.png'),
+                image: AssetImage('assets/stubyHeader.png'),
                 fit: BoxFit.cover,
               ),
             ),
@@ -383,7 +383,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
         bottomNavigationBar: Container( //フッター
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: AssetImage('../assets/stubyFooetr.png'),
+                image: AssetImage('assets/stubyFooetr.png'),
                 fit: BoxFit.cover,
               ),
             ),
