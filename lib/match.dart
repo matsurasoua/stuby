@@ -3,6 +3,35 @@ import 'setting.dart';
 import 'FilterMatch.dart';
 import 'main.dart';
 import 'package:stuby_develop/API/matchAPI.dart';
+import 'package:stuby_develop/models/MatchModels.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+
+class UserMatch{
+  static Future<dynamic> MatchApi() async {
+    final url = Uri.parse('https://d1xwn0sj8q7csh.cloudfront.net/stuby/user/select/matching/recommendation');
+    //エンドポイント続き : /select/profile/my_id/{Myuser_id}/other_id/{other_user_id}
+    final response = await http.get(url);
+
+    if(response.statusCode == 200){
+      final jason = jsonDecode(response.body);
+      return jason;
+      // user_id: jason['user_id'],   // ユーザーID
+      // user_name: jason['user_name'], // ユーザーの名前
+      // user_gender: jason['user_gender'], //ユーザーの性別
+      // user_old: jason['user_old'], // 年齢
+      // fasubject:jason['fasuject'], //得意科目
+      // wesubject: jason['wesubject'] //苦手科目
+      // );
+    }else{
+      print('Response status: ${response.statusCode}');
+    }
+    //print('Response status: ${response.statusCode}');
+    //print('Response body: ${response.body}');
+  }
+//モデル作成
+}
+
 
 class MatchPage extends StatefulWidget {
   const MatchPage({Key? key}) : super(key: key);
@@ -29,6 +58,11 @@ class _MatchPageState extends State<MatchPage>
 
   @override
   Widget build(BuildContext context) {
+    //リクエスト
+    UserMatch.MatchApi();
+    //モデル
+    final UserInfo userInfo;
+
     return Scaffold(
       //icons.tune
       body: Column(
@@ -128,7 +162,7 @@ class _MatchPageState extends State<MatchPage>
               Container(
                 margin: EdgeInsets.only(bottom: 6, left: 5),
                 child: Text(
-                  'ユーザ名',
+                  '',
                   style: TextStyle(fontSize: 12),
                 ),
               ),
