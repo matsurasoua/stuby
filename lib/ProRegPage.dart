@@ -4,10 +4,19 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:stuby_develop/login.dart';
+import 'package:stuby_develop/RegistrationPage.dart';
+import 'package:minio_new/minio.dart';
+import 'package:flutter/services.dart';
 
+final minio = Minio(
+  endPoint: 'https://stuby-eteam.s3.amazonaws.com/images',
+  region: 'us-east-1',
+  accessKey: 'AKIA4QEAAAZWMHC4WGT7',
+  secretKey: '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',
+);
 
 class ProRegPage extends StatefulWidget {
-  const ProRegPage({Key? key}) : super(key: key);
+  ProRegPage({Key? key}) : super(key: key);
 
   @override
   _ProRegPageState createState() => _ProRegPageState();
@@ -30,7 +39,36 @@ class _ProRegPageState extends State<ProRegPage> {
   String? _selectedSubject2;
   File? _selectedImage;
   File? _uploadImage;
+  File? icon;
+  File? profile;
 
+  String? iconName = "";
+  String? profileName = "";
+
+
+  void uploadedImage() async {
+    final byteData = await rootBundle.load(profile.toString());
+    Stream<Uint8List> imageBytes = Stream.value(byteData.buffer
+        .asUint8List(byteData.offsetInBytes, byteData.lengthInBytes));
+
+    await minio.putObject(
+      'stuby-eteam',
+      profileName!,
+      imageBytes,
+    );
+  }
+
+  void selectImage() async {
+    final byteData = await rootBundle.load(icon.toString());
+    Stream<Uint8List> imageBytes = Stream.value(byteData.buffer
+        .asUint8List(byteData.offsetInBytes, byteData.lengthInBytes));
+
+    await minio.putObject(
+      'stuby-eteam',
+      iconName!,
+      imageBytes,
+    );
+  }
 
   void _register() async {
 
@@ -42,20 +80,22 @@ class _ProRegPageState extends State<ProRegPage> {
     String faculty = _facultyController.text;
     String overview = _overviewController.text;
 
-    File? icon = _selectedImage;
-    File? profile = _uploadImage;
+    icon = _selectedImage ;
+    profile = _uploadImage;
 
     String? subject1 = _selectedSubject1;
     String? subject2 = _selectedSubject2;
 
-    String? iconName = _updateImageName;
-    String? profileName = _selectedImageName;
+    iconName = _updateImageName;
+    profileName = _selectedImageName;
 
-
-
+    uploadedImage();
+    selectImage();
 
     print(iconName);
     print(profileName);
+    print(icon);
+    print(profile);
     // APIリクエストの送信
     final url = 'https://hvpjsk6o6g.execute-api.us-east-2.amazonaws.com/stuby/user/update';
     int userId = GlobalData.userId;
