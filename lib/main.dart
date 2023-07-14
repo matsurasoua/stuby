@@ -6,11 +6,7 @@ import 'chat.dart';
 import 'com.dart';
 import 'Mysetting.dart';
 
-void main() {
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
+class Main extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

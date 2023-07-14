@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+
 const String apiEndpoint = 'https://hvpjsk6o6g.execute-api.us-east-2.amazonaws.com/stuby/user/insert'; // API
 
 class RegistrationPage extends StatefulWidget {

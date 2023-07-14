@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:stuby_develop/RegistrationPage.dart';
 import 'package:stuby_develop/login.dart';
 import 'package:stuby_develop/ProRegPage.dart';
+import 'package:stuby_develop/home.dart';
+import 'package:stuby_develop/main.dart';
 void main() {
   runApp(MyApp());
 }
@@ -20,6 +22,7 @@ class MyApp extends StatelessWidget {
         '/login': (context) => LoginPage(),
         '/signup': (context) => RegistrationPage(),
         '/ProReg': (context) => ProRegPage(),
+        '/home': (context) => Main(),
       },
     );
   }
@@ -69,15 +72,15 @@ class HomeScreen extends StatelessWidget {
                    Navigator.pushNamed(context, '/login');
                   },
                 ),
-                TextButton(
-                  child: const Text('新規登録ページ(Debug用)'),
-                  style: TextButton.styleFrom(
-                    primary: Colors.white,
-                  ),
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/ProReg');
-                  },
-                ),
+                // TextButton(
+                //   child: const Text('新規登録ページ(Debug用)'),
+                //   style: TextButton.styleFrom(
+                //     primary: Colors.white,
+                //   ),
+                //   onPressed: () {
+                //     Navigator.pushNamed(context, '/ProReg');
+                //   },
+                // ),
               ],
             ),
           ),
