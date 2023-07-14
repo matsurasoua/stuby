@@ -3,6 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:stuby_develop/PosDis.dart';
 import 'package:stuby_develop/storyPost.dart';
 import 'package:stuby_develop/submitPost.dart';
+import 'renponse.dart';
+
+
+const String apiEndpoint = 'https://d1xwn0sj8q7csh.cloudfront.net/stuby/test '; // API
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -12,7 +16,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage>
-    with SingleTickerProviderStateMixin {
+    with SingleTickerProviderStateMixin{
   late TabController _tabController;
   // 状態を管理する変数などをここに追加
   List<bool> isFavoriteList = List.filled(4, false); // 投稿数に合わせたリストを作成し、初期値をfalseで埋める
@@ -59,24 +63,24 @@ class _HomePageState extends State<HomePage>
                 physics: ScrollPhysics(),
                 child: Row(
                   children: [
-                    Story_you('あなた', '../assets/hamesu.png'),
-                    Story('User 2', '../assets/yuuri.png'),
-                    Story('User 3', '../assets/messi.png'),
-                    Story('User 4', '../assets/user1_story.png'),
-                    Story('User 5', '../assets/messi_post.png'),
-                    Story('User 6', '../assets/yuuri.png'),
-                    Story('User 7', '../assets/yuuri.png'),
-                    Story('User 8', '../assets/yuuri.png'),
-                    Story('User 9', '../assets/yuuri.png'),
-                    Story('User 10', '../assets/yuuri.png'),
-                    Story('User 11', '../assets/yuuri.png'),
-                    Story('User 12', '../assets/yuuri.png'),
-                    Story('User 13', '../assets/yuuri.png'),
-                    Story('User 14', '../assets/yuuri.png'),
-                    Story('User 15', '../assets/yuuri.png'),
-                    Story('User 16', '../assets/yuuri.png'),
-                    Story('User 17', '../assets/yuuri.png'),
-                    Story('User 18', '../assets/yuuri.png'),
+                    Story_you('あなた', 'assets/hamesu.png'),
+                    Story('User 2', 'assets/yuuri.png'),
+                    Story('User 3', 'assets/messi.png'),
+                    Story('User 4', 'assets/user1_story.png'),
+                    Story('User 5', 'assets/messi_post.png'),
+                    Story('User 6', 'assets/yuuri.png'),
+                    Story('User 7', 'assets/yuuri.png'),
+                    Story('User 8', 'assets/yuuri.png'),
+                    Story('User 9', 'assets/yuuri.png'),
+                    Story('User 10', 'assets/yuuri.png'),
+                    Story('User 11', 'assets/yuuri.png'),
+                    Story('User 12', 'assets/yuuri.png'),
+                    Story('User 13', 'assets/yuuri.png'),
+                    Story('User 14', 'assets/yuuri.png'),
+                    Story('User 15', 'assets/yuuri.png'),
+                    Story('User 16', 'assets/yuuri.png'),
+                    Story('User 17', 'assets/yuuri.png'),
+                    Story('User 18', 'assets/yuuri.png'),
                   ],
                 ),
               ),
@@ -121,13 +125,14 @@ class _HomePageState extends State<HomePage>
       //右下のボタン
       floatingActionButton: FloatingActionButton(
           backgroundColor: Colors.lightBlueAccent,
-          onPressed: () {
+          // onPressed: test,
+          onPressed:() {
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => SubmitPostPage()),
             );
           },
-          child: Image.asset("../assets/post.png")),
+          child: Image.asset("assets/post.png")),
     );
   }
 
@@ -244,26 +249,26 @@ class _HomePageState extends State<HomePage>
     List<String> names = ["優里ch", "Lionel Messi", "優里ch", "Lionel Messi"];
     //トプ画
     List<String> images = [
-      "../assets/yuuri.png",
-      "../assets/messi.png",
-      "../assets/yuuri.png",
-      "../assets/messi.png",
+      "assets/yuuri.png",
+      "assets/messi.png",
+      "assets/yuuri.png",
+      "assets/messi.png",
     ];
     //時間
     List<String> times = ["09:20", "22:20", "23:03", "00:00"];
     //投稿画像
     List<String> image_posts = [
-      "../assets/yuuri_post.png",
-      "../assets/messi_post.png",
-      "../assets/yuuri_post.png",
-      "../assets/messi_post.png"
+      "assets/yuuri_post.png",
+      "assets/messi_post.png",
+      "assets/yuuri_post.png",
+      "assets/messi_post.png"
     ];
     //投稿文章
     List<String> posts = [
       "新しいアルバム出しました\n\"1stアルバム「ECC」\"",
-      "EZWIN 3-0\nHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHA",
+      "EZWIN 3-0",
       "新しいアルバム出しました\n\"1stアルバム「ECC」\"",
-      "EZWIN 3-0\nHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHA"
+      "EZWIN 3-0"
     ];
 
     return GestureDetector(
@@ -400,7 +405,7 @@ class _HomePageState extends State<HomePage>
                   ),
                   Container(
                     child: Image.asset(
-                      "../assets/share.png",
+                      "assets/share.png",
                     ),
                     margin: EdgeInsets.only(bottom: 18, right: 30),
                   ),

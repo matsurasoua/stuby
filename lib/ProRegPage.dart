@@ -154,7 +154,7 @@ class _ProRegPageState extends State<ProRegPage> {
     if (statusCode == 204) {
       // APIレスポンスのユーザーIDを取得
       // レスポンスの処理を行うことができます
-      Navigator.pushNamed(context, '/login');
+      Navigator.pushNamed(context, '/home');
 
     } else {
       showDialog(

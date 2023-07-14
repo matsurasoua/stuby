@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'setting.dart';
+import 'FilterMatch.dart';
+import 'main.dart';
+import 'package:stuby_develop/API/matchAPI.dart';
 
 class MatchPage extends StatefulWidget {
   const MatchPage({Key? key}) : super(key: key);
@@ -14,7 +18,7 @@ class _MatchPageState extends State<MatchPage>
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 3, vsync: this);
+    _tabController = TabController(length: 2, vsync: this);
   }
 
   @override
@@ -26,8 +30,22 @@ class _MatchPageState extends State<MatchPage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      //icons.tune
       body: Column(
         children: <Widget>[
+          Align(
+            alignment: Alignment.topRight,
+              child: IconButton(
+                icon: Icon(Icons.tune),
+                color: Colors.lightBlueAccent,
+                iconSize: 50,
+                onPressed: (){
+                  Navigator.push((context), MaterialPageRoute(builder: (context) {
+                    return FilterPage();
+                  }));
+                }
+              ),
+          ),
           TabBar(
             controller: _tabController,
             labelColor: Colors.blueAccent,
@@ -35,7 +53,6 @@ class _MatchPageState extends State<MatchPage>
             tabs: [
               Tab(text: 'おすすめ'),
               Tab(text: 'オンライン中'),
-              Tab(text: '距離順'),
             ],
             indicatorColor: Colors.blue,
           ),
@@ -61,16 +78,6 @@ class _MatchPageState extends State<MatchPage>
                     for (int i = 0; i < 50; i++) ...{Prof(context)}
                   ],
                 ),
-                GridView.count(
-                  padding: EdgeInsets.only(left: 10, top: 10, right: 10),
-                  crossAxisCount: 3,
-                  crossAxisSpacing: 10,
-                  mainAxisSpacing: 10,
-                  children: <Widget>[
-                    //取ってきたユーザーの数だけまわす
-                    for (int i = 0; i < 50; i++) ...{Prof(context)}
-                  ],
-                )
               ],
             ),
           )
@@ -84,18 +91,26 @@ class _MatchPageState extends State<MatchPage>
       ClipRRect(
         borderRadius: BorderRadius.circular(20),
         child: Image(
-          image: AssetImage('../assets/gogo.png'),
+          image: AssetImage('assets/yuuri.png'),
           fit: BoxFit.cover,
           width: 140,
           height: 140,
         ),
+      ),
+      //ユーザの写真押されたら。プロフィール詳細に飛ぶ
+      GestureDetector(
+        onTap: () {
+          Navigator.push(context, MaterialPageRoute(builder: (context) {
+            return SettingPage();
+          }));
+        },
       ),
       Container(
           margin: EdgeInsets.only(top: 90),
           height: 70,
           width: 140,
           decoration: BoxDecoration(
-            color: Colors.white.withOpacity(0.6),
+            color: Colors.grey.withOpacity(0.6),
             borderRadius: BorderRadius.only(
               bottomLeft: Radius.circular(20),
               bottomRight: Radius.circular(20),
@@ -128,7 +143,7 @@ class _MatchPageState extends State<MatchPage>
                   child: Text(
                     '10',
                     style: TextStyle(
-                      fontSize: 12,
+                      fontSize: 11,
                     ),
                   ),
                   padding: EdgeInsets.only(
@@ -139,7 +154,7 @@ class _MatchPageState extends State<MatchPage>
           )
       ),
       Container(
-          margin: EdgeInsets.only(top: 110, left: 6),
+          margin: EdgeInsets.only(top: 105, left: 8),
           //width: MediaQuery.of(context).size.width * 0.5,
           child: Row(
             children: <Widget>[
@@ -148,11 +163,11 @@ class _MatchPageState extends State<MatchPage>
                 child: Text(
                   '好き',
                   style: TextStyle(
-                      fontSize: 8),
+                      fontSize: 7),
                 ),
               ),
               Image(
-                image: AssetImage('../assets/yaj.png'),
+                image: AssetImage('assets/yaj.png'),
                 width: 10,
                 height: 10,
               ),
@@ -161,11 +176,12 @@ class _MatchPageState extends State<MatchPage>
                 child: Text(
                   '苦手',
                   style: TextStyle(
-                      fontSize: 8),
+                      fontSize: 7),
                 ),
               ),
             ],
-          ))
+          )
+      ),
     ]);
   }
 }
