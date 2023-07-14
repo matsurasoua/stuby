@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:stuby_develop/PosDis.dart';
 import 'package:stuby_develop/storyPost.dart';
 import 'package:stuby_develop/submitPost.dart';
-import 'renponse.dart';
 
 
 const String apiEndpoint = 'https://d1xwn0sj8q7csh.cloudfront.net/stuby/test '; // API
