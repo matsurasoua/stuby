@@ -205,7 +205,7 @@ class _SubmitPostPageState extends State<SubmitPostPage> {
                                       // test();
                                       Navigator.push(
                                         context,
-                                        MaterialPageRoute(builder: (context) => MyApp()),
+                                        MaterialPageRoute(builder: (context) => Main()),
                                       );
                                     },
                                   ),
