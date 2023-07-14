@@ -91,7 +91,7 @@ class _MatchPageState extends State<MatchPage>
       ClipRRect(
         borderRadius: BorderRadius.circular(20),
         child: Image(
-          image: AssetImage('../assets/yuuri.png'),
+          image: AssetImage('assets/yuuri.png'),
           fit: BoxFit.cover,
           width: 140,
           height: 140,
@@ -167,7 +167,7 @@ class _MatchPageState extends State<MatchPage>
                 ),
               ),
               Image(
-                image: AssetImage('../assets/yaj.png'),
+                image: AssetImage('assets/yaj.png'),
                 width: 10,
                 height: 10,
               ),

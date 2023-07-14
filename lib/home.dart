@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:stuby_develop/PosDis.dart';
 import 'package:stuby_develop/storyPost.dart';
 import 'package:stuby_develop/submitPost.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
+import 'renponse.dart';
 
-const String apiEndpoint = 'https://d1xwn0sj8q7csh.cloudfront.net/stuby/post/select/all_post/myuser_id/1/other_user_id/1 '; // API
+
+const String apiEndpoint = 'https://d1xwn0sj8q7csh.cloudfront.net/stuby/test '; // API
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -134,24 +134,6 @@ class _HomePageState extends State<HomePage>
           },
           child: Image.asset("assets/post.png")),
     );
-  }
-
-  void test() async{
-    http.Response response = await http.get(
-      Uri.parse(apiEndpoint),
-      // body: json.encode(requestData),
-      headers: {'Content-Type': 'application/json'},
-    );
-
-    // APIレスポンスのステータスコードを取得
-    int statusCode = response.statusCode;
-    print('レスポンスステータスコード: ${response.statusCode}');
-    print('レスポンスボディ: ${response.body}');
-    if (statusCode == 200) {
-      print('通信OKだよっ');
-    }else{
-      print('通信出来てないよっ');
-    }
   }
 
   //自分用ストーリー
@@ -284,9 +266,9 @@ class _HomePageState extends State<HomePage>
     //投稿文章
     List<String> posts = [
       "新しいアルバム出しました\n\"1stアルバム「ECC」\"",
-      "EZWIN 3-0\nHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHA",
+      "EZWIN 3-0",
       "新しいアルバム出しました\n\"1stアルバム「ECC」\"",
-      "EZWIN 3-0\nHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHA"
+      "EZWIN 3-0"
     ];
 
     return GestureDetector(
