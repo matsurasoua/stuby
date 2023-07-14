@@ -44,7 +44,7 @@ class _LoginPageState extends State<LoginPage> {
       setState(() {
         isLoggedIn = true;
         GlobalData.userId = responseData['login_user_id']; // userIdをグローバル変数に代入
-        Navigator.pushNamed(context, '/ProReg');
+        Navigator.pushNamed(context, '/home');
       });
     } else {
       showDialog(

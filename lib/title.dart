@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:stuby_develop/RegistrationPage.dart';
 import 'package:stuby_develop/login.dart';
 import 'package:stuby_develop/ProRegPage.dart';
+import 'package:stuby_develop/home.dart';
 void main() {
   runApp(MyApp());
 }
@@ -20,6 +21,7 @@ class MyApp extends StatelessWidget {
         '/login': (context) => LoginPage(),
         '/signup': (context) => RegistrationPage(),
         '/ProReg': (context) => ProRegPage(),
+        '/home': (context) => HomePage(),
       },
     );
   }
